@@ -1,0 +1,10 @@
+.hide{
+    display: none;
+}
+
+.imgg{
+    height: 250px;
+    width: 200px;
+    text-align: center;
+    margin-top: 40px;
+}
