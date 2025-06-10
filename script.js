@@ -4,43 +4,52 @@ const submitBtn = document.getElementById("submitBtn");
 const hidden = document.getElementById("hidden");
 const divv = document.getElementById("divv");
 
-
 // Store original button position (for resetting later)
 let originalTransform = submitBtn.style.transform;
 
+// Define 5 fixed positions [x, y] in pixels
+const fixedPositions = [
+  [120, 80],    // position 1
+  [-120, 60],   // position 2
+  [100, 100],  // position 3
+  [-80, 120],  // position 4
+  [150, 50]    // position 5
+];
+let currentPositionIndex = 0;
+
 submitBtn.addEventListener("mouseover", () => {
     if (option1.checked) {
-        // Random movement (100-200px in any direction)
-        const randomX = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 100) + 100);
-        const randomY = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 100) + 100);
+        // Move to next fixed position
+        const [x, y] = fixedPositions[currentPositionIndex];
+        submitBtn.style.transform = `translate(${x}px, ${y}px)`;
+        submitBtn.style.transition = "transform 0.2s ease-out";
         
-        submitBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        submitBtn.style.transition = "transform 0.1s"; // Smooth movement
+        // Update position index (cycle through positions)
+        currentPositionIndex = (currentPositionIndex + 1) % fixedPositions.length;
         
     } else if (option2.checked) {
-        hidden.classList.remove("hide")
-        
-        divv.classList.remove("hide")
+        hidden.classList.remove("hide");
+        divv.classList.remove("hide");
     }
 });
 
-
 submitBtn.addEventListener("click", () => {
     if (option1.checked) {
-        // Random movement (100-200px in any direction)
-        const randomX = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 100) + 100);
-        const randomY = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 100) + 100);
+        // Move to next fixed position on click as well
+        const [x, y] = fixedPositions[currentPositionIndex];
+        submitBtn.style.transform = `translate(${x}px, ${y}px)`;
+        submitBtn.style.transition = "transform 0.2s ease-out";
         
-        submitBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        submitBtn.style.transition = "transform 0.1s"; // Smooth movement
+        currentPositionIndex = (currentPositionIndex + 1) % fixedPositions.length;
         
     } else if (option2.checked) {
-        hidden.classList.remove("hide")
-        divv.classList.remove("hide")
+        hidden.classList.remove("hide");
+        divv.classList.remove("hide");
     }
 });
 
 // Reset position when mouse leaves
 submitBtn.addEventListener("mouseout", () => {
     submitBtn.style.transform = originalTransform;
+    submitBtn.style.transition = "transform 0.3s ease-out";
 });
