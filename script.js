@@ -5,7 +5,7 @@ const hidden = document.getElementById("hidden");
 const divv = document.getElementById("divv");
 
 // Store original button position (for resetting later)
-let originalTransform = submitBtn.style.transform;
+const originalTransform = submitBtn.style.transform || 'translate(0, 0)';
 
 // Define 5 fixed positions [x, y] in pixels
 const fixedPositions = [
@@ -17,39 +17,52 @@ const fixedPositions = [
 ];
 let currentPositionIndex = 0;
 
+// Function to reset everything
+function resetAll() {
+  submitBtn.style.transform = originalTransform;
+  hidden.classList.add("hide");
+  divv.classList.add("hide");
+  currentPositionIndex = 0;
+}
+
+// When option1 is selected, reset everything
+option1.addEventListener("change", () => {
+  if (option1.checked) {
+    resetAll();
+  }
+});
+
 submitBtn.addEventListener("mouseover", () => {
-    if (option1.checked) {
-        // Move to next fixed position
-        const [x, y] = fixedPositions[currentPositionIndex];
-        submitBtn.style.transform = `translate(${x}px, ${y}px)`;
-        submitBtn.style.transition = "transform 0.2s ease-out";
-        
-        // Update position index (cycle through positions)
-        currentPositionIndex = (currentPositionIndex + 1) % fixedPositions.length;
-        
-    } else if (option2.checked) {
-        hidden.classList.remove("hide");
-        divv.classList.remove("hide");
-    }
+  if (option1.checked) {
+    // Move to next fixed position
+    const [x, y] = fixedPositions[currentPositionIndex];
+    submitBtn.style.transform = `translate(${x}px, ${y}px)`;
+    submitBtn.style.transition = "transform 0.2s ease-out";
+    
+    // Update position index (cycle through positions)
+    currentPositionIndex = (currentPositionIndex + 1) % fixedPositions.length;
+  } else if (option2.checked) {
+    hidden.classList.remove("hide");
+    divv.classList.remove("hide");
+  }
 });
 
 submitBtn.addEventListener("click", () => {
-    if (option1.checked) {
-        // Move to next fixed position on click as well
-        const [x, y] = fixedPositions[currentPositionIndex];
-        submitBtn.style.transform = `translate(${x}px, ${y}px)`;
-        submitBtn.style.transition = "transform 0.2s ease-out";
-        
-        currentPositionIndex = (currentPositionIndex + 1) % fixedPositions.length;
-        
-    } else if (option2.checked) {
-        hidden.classList.remove("hide");
-        divv.classList.remove("hide");
-    }
+  if (option1.checked) {
+    // Move to next fixed position on click as well
+    const [x, y] = fixedPositions[currentPositionIndex];
+    submitBtn.style.transform = `translate(${x}px, ${y}px)`;
+    submitBtn.style.transition = "transform 0.2s ease-out";
+    
+    currentPositionIndex = (currentPositionIndex + 1) % fixedPositions.length;
+  } else if (option2.checked) {
+    hidden.classList.remove("hide");
+    divv.classList.remove("hide");
+  }
 });
 
 // Reset position when mouse leaves
 submitBtn.addEventListener("mouseout", () => {
-    submitBtn.style.transform = originalTransform;
-    submitBtn.style.transition = "transform 0.3s ease-out";
+  submitBtn.style.transform = originalTransform;
+  submitBtn.style.transition = "transform 0.3s ease-out";
 });
